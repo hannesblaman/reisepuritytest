@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Your Reise Purity Score</title>
+    <link rel="shortcut icon" type="image/png" href="/favicon.png">
+    <link rel="stylesheet" href="/style.css">
+
+    <!-- META -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+
+    <p>
+      <a href="/">
+        <img src="/thresherOfficial.png" alt="Rice Thresher Logo">
+      </a>
+    </p>
+
+    <p><i>
+      The Purity Test has historically served as a segue from O-week to true college life at Rice.<br />
+      It's a voluntary opportunity for O-week groups to bond, and for students to track the maturation<br />
+      of their experiences throughout college.
+    </i></p>
+    <p><strong>
+      Caution: This is not a bucket list. Completion of all items on this test will likely result in death.
+    </strong></p>
+
+  
+    <h2>Your score:</h2>
+    <h1 id="score">--</h1>
+
+    <div id="share" style="margin-top: 1em;">
+      <a id="restart" href="/"><button onclick="restartEvent()">Take again!</button></a>
+      <button onclick="copyLink()">Copy Link</button>
+      <a id="text-share" href="#"><button onclick="textEvent()">Share via Text</button></a>
+      <a id="x-share" href="#" target="_blank" rel="noopener noreferrer"><button onclick="xEvent()">Share on X</button></a>
+    </div>    
+
+    <p>Thank you for your submission!</p>
+    <p>
+      The Rice Purity test was created by 
+      <a class = "thresher-link" href="https://www.ricethresher.org/" target="_blank">the Rice Thresher</a>
+      newspaper at Rice University.
+    </p>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+
+      const score = params.get("score");
+
+      if (score) {
+        document.getElementById("score").textContent = score;
+      } else {
+
+        window.location.href = `/`;
+	  }
+    </script>
+
+    <script>
+      const scoreText = score ? `I got a ${score} on the Reise Purity Test!` : '';
+      const shareURL = window.location.origin;
+
+      function copyLink() {
+        navigator.clipboard.writeText(shareURL).then(() => {
+          alert("Link copied to clipboard!");
+        });
+
+        gtag('event', 'copy_link', {
+          'event_category': 'Sharing',
+          'event_label': 'Copied to Clipboard',
+          'value': 1
+        });
+      }
+
+      function restartEvent() {
+        gtag('event', 'restart_test', {
+          'event_category': 'Quiz Interaction',
+          'event_label': 'Restart Button Click',
+          'value': 1
+        });
+      }
+
+      function textEvent() {
+        gtag('event', 'sms_share', {
+          'event_category': 'Sharing',
+          'event_label': 'Share to SMS',
+          'value': 1
+        });
+      }
+
+      function xEvent() {
+        gtag('event', 'x_share', {
+          'event_category': 'Sharing',
+          'event_label': 'Share to X',
+          'value': 1
+        });
+      }
+
+      // Text message link
+      const smsMessage = `${scoreText} Check yours here: ${shareURL}`;
+      document.getElementById("text-share").href = `sms:?&body=${encodeURIComponent(smsMessage)}`;
+
+      // X (Twitter) share link
+      const xLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(scoreText)}&url=${encodeURIComponent(shareURL)}`;
+      document.getElementById("x-share").href = xLink;
+    </script>
+
+  </body>
+</html>
