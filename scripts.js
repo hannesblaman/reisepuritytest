@@ -7,7 +7,7 @@ SUBMIT.addEventListener('click', function() {
 	for (let box of CHECKBOXES) {
 		if (box.checked) score--;
 	}
-	window.location.href = `/score.html?score=${score}`;
+	window.location.href = `../score.html?score=${score}`;
 });
 
 RESET.addEventListener('click', function() {
